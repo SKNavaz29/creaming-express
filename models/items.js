@@ -23,7 +23,7 @@ const itemSchema = new Schema({
         required: true,
         min: 0
     },
-    ratings: {
+    rating: {
         type: Number,
         min: 1,
         max: 5,

@@ -12,9 +12,9 @@ itemRouter.use(bodyParser.json());
 
 itemRouter.route('/')
 
-.options(cors.corsWithOptions, (req,res)=>{res.sendStatus(200);})
+//.options(cors.corsWithOptions, (req,res)=>{res.sendStatus(200);})
 
-.get(cors.cors, (req,res,next) => {
+.get((req,res,next) => {
     Items.find(req.query)
     .populate('comments.author')
     .then((items) => {
@@ -25,7 +25,7 @@ itemRouter.route('/')
     .catch((err) => next(err));
 })
 
-.post(cors.corsWithOptions, authenticate.verifyUser, authenticate.verifyAdmin,(req, res, next) => {
+.post((req, res, next) => {
     Items.create(req.body)
     .then((Item) => {
         console.log('Dish Created ', Item);
