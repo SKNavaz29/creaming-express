@@ -19,6 +19,9 @@ const mongoose = require('mongoose');
 
 const Items = require('./models/items');
 
+var passport = require('passport');
+var authenticate = require('./authenticate');
+
 const url = config.mongoUrl;
 const connect = mongoose.connect(url);
 connect.then((db) => {
@@ -26,6 +29,18 @@ connect.then((db) => {
 }, (err) => { console.log(err); });
 
 var app = express();
+
+
+// Secure traffic only
+app.all('*', (req, res, next) => {
+  if (req.secure) {
+    return next();
+  }
+  else {
+    res.redirect(307, 'https://' + req.hostname + ':' + app.get('secPort') + req.url);
+  }
+});
+
 
 
 // view engine setup
@@ -46,14 +61,14 @@ app.use(session({
 }));
 
 
-app.use(passport.initialize());
-app.use(passport.session());
 
+app.use(passport.initialize());
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
 
+/*
 
 function auth (req, res, next) {
 
@@ -66,18 +81,8 @@ function auth (req, res, next) {
         next();
   }
 }
+*/
 
-
-
-// Secure traffic only
-app.all('*', (req, res, next) => {
-  if (req.secure) {
-    return next();
-  }
-  else {
-    res.redirect(307, 'https://' + req.hostname + ':' + app.get('secPort') + req.url);
-  }
-});
 
 
 
@@ -90,7 +95,9 @@ app.use('/items', itemRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  next(createError(404));
+  var err = new Error('Not Found');
+  err.status = 404;
+  next(err);
 });
 
 // error handler

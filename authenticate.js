@@ -1,10 +1,10 @@
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var User = require('./models/user');
-//var JwtStrategy = require('passport-jwt').Strategy;
-//var ExtractJwt = require('passport-jwt').ExtractJwt;
-//var jwt = require('jsonwebtoken');
-//var FacebookTokenStrategy = require('passport-facebook-token');
+ JwtStrategy = require('passport-jwt').Strategy;
+ ExtractJwt = require('passport-jwt').ExtractJwt;
+jwt = require('jsonwebtoken');
+FacebookTokenStrategy = require('passport-facebook-token');
 
 var config = require('./config.js');
 
@@ -17,7 +17,7 @@ exports.getToken = function(user) {
         {expiresIn: 3600});
 };
 
-/*     var opts = {};
+ var opts = {};
 opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 opts.secretOrKey = config.secretKey;
 
@@ -35,7 +35,7 @@ exports.jwtPassport = passport.use(new JwtStrategy(opts,
                 return done(null, false);
             }
         });
-    }));         */
+    }));       
 
 exports.verifyUser = passport.authenticate('jwt', {session: false});
 
