@@ -50,7 +50,7 @@ exports.verifyAdmin = function(req, err, next) {
 };
 
 
-/*  
+
 
 exports.facebookPassport = passport.use(new FacebookTokenStrategy({
     clientID: config.facebook.clientId,
@@ -79,4 +79,3 @@ exports.facebookPassport = passport.use(new FacebookTokenStrategy({
 }
 ));
 
-*/
